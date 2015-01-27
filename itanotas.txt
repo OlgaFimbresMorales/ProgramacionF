@@ -56,3 +56,9 @@ r.-
 owner.-
 x.-
 
+git fetch origin.- borra los cambios locales y comienza una copia nueva en el repositorio remoto
+
+git reset --hard origin/master
+
+git pull.- descarga y actualiza el repositorio local
+
