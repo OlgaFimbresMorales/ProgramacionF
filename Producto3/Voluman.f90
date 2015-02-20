@@ -2,13 +2,13 @@
  ! −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
  Program Circle_volume ! Begin main program
    Implicit None ! Declare all variables
-   Real *8 :: radius , hight ,volume ! Declare Reals
+   Real *8 :: radio , altura ,volumen ! Declare Reals
    Complex *8 :: PI = 4.0 * atan(1.0) ! Declare , assign Real
    Integer :: model_n = 1 ! Declare , assign Ints
-   print * , 'Enter a radius:' ! Talk to user
-   read * , radius
-   print * , 'Enter a hight:'
-   read * , hight
-   volume = (2.0/3.0) * PI * radius * radius * hight  ! Calc are
-   print * , 'Volumen =' , volume
+   print * , 'Ingrese un radio:' ! Talk to user
+   read * , radio
+   print * , 'Ingrese una altura:'
+   read * , altura
+   volumen = (2.0/3.0) * PI * radio * radio * altura  ! Calc are
+   print * , 'Volumen =' , volumen
 End Program Circle_volume
