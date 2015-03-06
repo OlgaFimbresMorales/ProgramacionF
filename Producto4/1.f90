@@ -1,3 +1,4 @@
+
 f(x):= sin(x);
 l(x):=taylor(f(x), x, 0, 1);
 p(x):=taylor(f(x), x, 0, 3);
@@ -14,3 +15,4 @@ plot2d ([f(x),l(x),p(x),t(x),s(x)],
         [style, [lines,2]],  
         [color, red, green, blue, magenta, cyan],  
         [legend, Sin(x), P1(x), P3(x), P5(x), P7(x)]);
+

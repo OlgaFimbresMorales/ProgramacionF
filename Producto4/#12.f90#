@@ -1,0 +1,21 @@
+program taylor_aprox
+    implicit none
+open(1, file='taylor.dat')
+sin(x)
+
+      x-x**3/6.0E+0
+
+                                     5     3
+                                    x     x
+
+      x
+
+                                    7     5     3
+                                   x     x     x
+                   fotran(- ---- + --- - -- + x)
+                                  5040   120   6f(x):= sin(x);
+
+
+close(1)
+
+end program taylor_aprox
