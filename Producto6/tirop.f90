@@ -26,12 +26,12 @@ print * , 'Altura máxima alcanzada', y
 
 open(1, file='tirop.dat')
 
-do i=1,500
+do i=1,5000
     
     
       t = (float(i)*0.01)   
-      z(i) = (((v0*v0*(sin(2*dt_r)))) + (v0x*(sqrt((v0y*v0y) + (2*g*y)))))/g
-      w(i) = ((v0y*v0y)/(2*g))    
+      z(i) = v0x*t
+      w(i) = v0y*t - 0.5*g*t*t    
       write(1,*) z(i), w(i)      
       if (w(i)<0) exit   
  end do   
