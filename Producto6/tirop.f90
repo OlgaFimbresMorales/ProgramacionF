@@ -2,7 +2,7 @@ Program Tiro_Parabolico
 Implicit None 
 real, parameter :: g = 9.81, p = 1.1644, pi = 4.0*atan(1.0)
 real :: dt, x0, y0, v0, v0x, v0y, ax, ay, t, x, y, m, A, CD, dt_r 
-real :: z(200), w(200)
+real :: z(3000), w(3000)
    integer :: i
 write (*,*) 'Ingrese una velocidad inicial para el proyectil'
 read *, v0
@@ -26,15 +26,15 @@ print * , 'Altura máxima alcanzada', y
 
 open(1, file='tirop.dat')
 
-do i=1,5000
+do i=1,3000
     
     
-      t = (float(i)*0.01)   
+      t = (float(i)*0.018)   
       z(i) = v0x*t
-      w(i) = v0y*t - 0.5*g*t*t    
-      write(1,*) z(i), w(i)      
-      if (w(i)<0) exit   
- end do   
+      w(i) =  v0*sin(dt_r)*t - 0.5*g*t*t   
+      write(1,*) z(i), w(i) 
+      if (w(i)<0) exit        
+ end do  
 close(1)   
 
 End program Tiro_Parabolico
@@ -44,8 +44,8 @@ Implicit None
 real, intent(in) :: dt_r, x0, y0, v0, v0x, v0y, g, ax, ay
 real, intent(inout) :: t, x, y
 y = y0 + ((v0y*v0y)/(2*g))
-t = (v0y + sqrt((v0y*v0y) + (2*g*y)))/g
-x = x0 + (((v0*v0*(sin(2*dt_r)))) + (v0x*(sqrt((v0y*v0y) + (2*g*y)))))/g
+t = (v0y + sqrt((v0y*v0y) + (2*g*y0)))/g
+x = x0 + (v0x*t)
 
 End Subroutine Tiro_p 
 
