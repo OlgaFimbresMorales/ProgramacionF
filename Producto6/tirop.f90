@@ -1,13 +1,13 @@
 Program Tiro_Parabolico
 Implicit None 
 real, parameter :: g = 9.81, p = 1.1644, pi = 4.0*atan(1.0), A=1
-real :: dt, x0, y0, v0, v0x, v0y, ax, ay, t, x, y, m, CD, dt_r, FD 
+real :: dt, x0, y0, v0, v0x, v0y, ax, ay, m, CD, dt_r, FD, x, y, n
 real :: z(3000), w(3000), vx(100), vy(100)
-   integer :: i, c
+   integer :: i, t, f, c
 write (*,*) 'Ingrese la masa del proyectil'
 read *, m
 write (*,*) 'Elija un coeficiente de fricción:'
-write (*,*) ' Esfera: 0.47, Media esfera: 0.42, Cono: 0.5, Cubo: 1.05, Cilindro: 0.82, Aerodinámico: 0.04'
+write (*,*) 'Esfera: 0.47, Media esfera: 0.42, Cono: 0.5, Cubo: 1.05, Cilindro: 0.82, Aerodinámico: 0.04'
 read *, CD
 write (*,*) 'Ingrese una velocidad inicial para el proyectil'
 read *, v0
@@ -23,12 +23,9 @@ v0x = v0*cos(dt_r)
 v0y = v0*sin(dt_r)
 FD = (1/2)*p*v0*v0*CD*A
 
+n = (v0y + sqrt((v0y*v0y) + (2*g*y0)))/g
 
-
-
-call Tiro_a (dt_r, x0, y0, v0, v0x, v0y, ax, ay, t, x, y, g, FD)
-
-print * , 'Tiempo total de vuelo', t
+print * , 'Tiempo total de vuelo', n
 print * , 'Distancia máxima recorrida', x
 print * , 'Altura máxima alcanzada', y
 
@@ -44,6 +41,34 @@ end do
 close(1)
 End program Tiro_Parabolico
 
+Subroutine Tiro_c (v0, v0y, v0x, g, FD, m, y0, x0, x, y, n, t)
+Implicit none
+real, intent(in) :: v0, v0y, v0x, g, FD, m, y0
+real, intent(inout) :: x(n), y, x0
+    integer, intent(inout) :: n, t
+do t=0,n
+    n = (v0y + sqrt((v0y*v0y) + (2*g*y0)))/g
+    if (t /=0) then  (x(t)= x0 + (v0x*t) + ((m/FD)*(Log(t))))
+else (x(t)=0)
+end do
+
+end subroutine Tiro_c
+
+Subroutine Tiro_m (dt_r, x0, y0, v0, v0x, v0y, ax, ay, t, x, y, g, FD)
+real, intent(in) :: dt_r, x0, y0, v0, v0x, v0y, g, ax, ay, FD
+real, intent(inout) :: t, x, y
+t = (v0y + sqrt((v0y*v0y) + (2*g*y0)))/g
+y = (v0y*t) + ((m/FD)*(Log(cos(sqrt((g*FD)/m)*t))))
+x = (v0x*t) + ((m/FD)*(Log(t)))
+End subroutine Tiro_m
+
+Subroutine Tiro_a (dt_r, x0, y0, v0, v0x, v0y, ax, ay, t, x, y, g, FD)
+real, intent(in) :: dt_r, x0, y0, v0, v0x, v0y, g, ax, ay, FD
+real, intent(inout) :: t, x, y
+y = (v0y*t) + ((m/FD)*(Log(cos(sqrt((g*FD)/m)*t))))
+t = (v0y + sqrt((v0y*v0y) + (2*g*y0)))/g
+x = (v0x*t) + ((m/FD)*(Log(t)))
+End Subroutine Tiro_a
 
 Subroutine x (v0x, v0y, v0, dt_r, g, t)
 Implicit None
@@ -62,7 +87,6 @@ do i=1,3000
  end do  
 end subroutine x  
 
-
 Subroutine Tiro_p(dt_r, x0, y0, v0, v0x, v0y, ax, ay, t, x, y, g)
 Implicit None 
 real, intent(in) :: dt_r, x0, y0, v0, v0x, v0y, g, ax, ay
@@ -71,15 +95,6 @@ y = y0 + ((v0y*v0y)/(2*g))
 t = (v0y + sqrt((v0y*v0y) + (2*g*y0)))/g
 x = x0 + (v0x*t)
 End Subroutine Tiro_p 
-
-Subroutine Tiro_a (dt_r, x0, y0, v0, v0x, v0y, ax, ay, t, x, y, g, FD)
-real, intent(in) :: dt_r, x0, y0, v0, v0x, v0y, g, ax, ay, FD
-real, intent(inout) :: t, x, y
-y = (v0y*t) + ((m/FD)*(Log(cos(sqrt((g*FD)/m)*t))))
-t = (v0y + sqrt((v0y*v0y) + (2*g*y0)))/g
-x = (v0x*t) + ((m/FD)*(Log(t)))
-End Subroutine Tiro_a
-
 
 Subroutine Tir_op(m, p, A, CD, v0, v0x, v0y, ax, ay,g)
 Implicit None
