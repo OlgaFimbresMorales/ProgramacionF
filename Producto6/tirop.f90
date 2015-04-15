@@ -1,14 +1,16 @@
 Program Tiro_Parabolico
 Implicit None 
-real, parameter :: g = 9.81, p = 1.1644, pi = 4.0*atan(1.0), A=1
-real :: dt, x0, y0, v0, v0x, v0y, ax, ay, m, CD, dt_r, FD, x, y, n
+real, parameter :: g = 9.81, p = 1.1644, pi = 4.0*atan(1.0)
+real :: dt, x0, y0, v0, v0x, v0y, ax, ay, m, CD, dt_r, FD, x, y, n, A, r, D, t
 real :: z(3000), w(3000), vx(100), vy(100)
-   integer :: i, t, f, c
+   integer :: i, f, c
 write (*,*) 'Ingrese la masa del proyectil'
 read *, m
 write (*,*) 'Elija un coeficiente de fricción:'
 write (*,*) 'Esfera: 0.47, Media esfera: 0.42, Cono: 0.5, Cubo: 1.05, Cilindro: 0.82, Aerodinámico: 0.04'
 read *, CD
+write (*,*) 'Ingrese un radio de la esfera'
+read *, r
 write (*,*) 'Ingrese una velocidad inicial para el proyectil'
 read *, v0
 write (*,*) 'Ingrese un ángulo inicial para el proyectil'
@@ -22,8 +24,11 @@ dt_r =(dt*pi)/180
 v0x = v0*cos(dt_r)
 v0y = v0*sin(dt_r)
 FD = (1/2)*p*v0*v0*CD*A
-
+A = pi*r*r
+D = p*CD*A*(1/2)
 n = (v0y + sqrt((v0y*v0y) + (2*g*y0)))/g
+
+call Tiro_m (dt_r, x0, y0, v0, v0x, v0y, ax, ay, t, x, y, g, D)
 
 print * , 'Tiempo total de vuelo', n
 print * , 'Distancia máxima recorrida', x
@@ -48,18 +53,18 @@ real, intent(inout) :: x(n), y, x0
     integer, intent(inout) :: n, t
 do t=0,n
     n = (v0y + sqrt((v0y*v0y) + (2*g*y0)))/g
-    if (t /=0) then  (x(t)= x0 + (v0x*t) + ((m/FD)*(Log(t))))
-else (x(t)=0)
+    
 end do
 
 end subroutine Tiro_c
 
-Subroutine Tiro_m (dt_r, x0, y0, v0, v0x, v0y, ax, ay, t, x, y, g, FD)
-real, intent(in) :: dt_r, x0, y0, v0, v0x, v0y, g, ax, ay, FD
+Subroutine Tiro_m (dt_r, x0, y0, v0, v0x, v0y, ax, ay, t, x, y, g, D)
+real, intent(in) :: dt_r, x0, y0, v0, v0x, v0y, g, ax, ay, D
 real, intent(inout) :: t, x, y
+
 t = (v0y + sqrt((v0y*v0y) + (2*g*y0)))/g
-y = (v0y*t) + ((m/FD)*(Log(cos(sqrt((g*FD)/m)*t))))
-x = (v0x*t) + ((m/FD)*(Log(t)))
+y = (v0y*t) + ((m/D)*(Log(cos(sqrt((g*D)/m)*t))))
+x = (v0x*t) + ((m/D)*(Log(t)))
 End subroutine Tiro_m
 
 Subroutine Tiro_a (dt_r, x0, y0, v0, v0x, v0y, ax, ay, t, x, y, g, FD)
