@@ -101,26 +101,20 @@ integer :: i
 
 open (2, file='tirofriccion.dat')
 
-do i = 0, ntps, 1
-    
-   ft(0) =0
-    fx(0) = 0
-    fy(0) = 0
-    vxf(0) = v0x
-    vyf(0) = v0y
-    Vo(0) = v0
- 
-
-   ft(i+1) = ft(i) + 0.01
-   vxf(i+1) = vxf(i+1) + (ax(i+1)*ft(i+1))
-   vyf(i+1) = vxf(i+1) + (ay(i+1)*ft(i+1))
-   ax(i+1) = -(D/m)*(Vo(i+1))*(vxf(i+1))
-   ay(i+1) = -g - ((D/m)*(Vo(i+1))*(vyf(i+1)))
-
-   Vo(i+1) = sqrt((vxf(i+1)*vxf(i+1)) + (vyf(i+1)*vyf(i+1)))
    
-   fx(i+1) = fx(i) + (vxf(i+1)*ft(i+1)) + ((1/2)*ax(i+1)*ft(i)*ft(i+1))
-   fy(i+1) = fy(i) + (vyf(i+1)*ft(i+1)) + ((1/2)*ay(i+1)*ft(i)*ft(i+1))
+   vxf(0) = v0x
+   vyf(0) = v0y
+   Vo(0) = v0
+ 
+do i = 0, ntps, 1
+
+   ft(i+1) = ft(i) + 0.01   
+   vxf(i+1) = vxf(i) + (ax(i)*ft(i+1))
+   vyf(i+1) = vxf(i) + (ay(i)*ft(i+1))
+   ax(i+1) = -(D/m)*(Vo(0))*(vxf(i))
+   ay(i+1) = -g - ((D/m)*(Vo(0))*(vyf(i)))
+   fx(i+1) = fx(i) + (vxf(i)*ft(i+1)) + ((1/2)*ax(i)*ft(i+1)*ft(i+1))
+   fy(i+1) = fy(i) + (vyf(i)*ft(i+1)) + ((1/2)*ay(i)*ft(i+1)*ft(i+1))
   
 write (2, 1001) fx(i), fy(i)
 if (fy(i)<0) exit
