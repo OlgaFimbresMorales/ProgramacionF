@@ -1,4 +1,3 @@
-
 module Cte
 implicit none 
 real, parameter :: g = 9.81, p =1.1644, pi = 4.0*atan(1.0), CD = 0.47
@@ -137,6 +136,5 @@ Tf = maxval(ft, 1, (fy(i)<0))
 Xf = fx(i)
 Yf = maxval(fy, 1, (fy(i)<0))
 end subroutine Tiro_friccion1
-
 
 
