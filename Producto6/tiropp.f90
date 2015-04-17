@@ -101,28 +101,29 @@ real, intent(in) :: v0, v0x, v0y, x0, y0, D, m
 real, intent(inout) :: Xf, Tf, Yf
 real, dimension (0:ntps) :: fx, ft, fy, vxf, vyf, ax, ay, Vo
 integer :: i
-
+   
+   fy = 0
    ft(0)=0
    fx(0)=x0
    fy(0)=y0
-   Vo(0)=v0
    vxf(0)=v0x
    vyf(0)=v0y
-   ax(0) = -(D/m)*(V0)*(v0x)
-   ay(0) = -g - ((D/m)*(V0)*(v0y))
+   ax(0) = -(D/m)*(v0x)*(v0x)
+   ay(0) = -g - ((D/m)*(v0y)*(v0y))
 
 open (2, file='tirofriccion.dat')  
 do i = 0, ntps, 1
     
 
    ft(i+1) = (ft(i)*0.01) + 0.01
+  
    vxf(i+1) = vxf(i) + (ax(i)*ft(i+1))
    vyf(i+1) = vyf(i) + (ay(i)*ft(i+1))
    fx(i+1) = fx(i) + (vxf(i)*ft(i+1)) + ((1/2)*ax(i)*ft(i+1)*ft(i+1))
    fy(i+1) = fy(i) + (vyf(i)*ft(i+1)) + ((1/2)*ay(i)*ft(i+1)*ft(i+1))
-   ax(i+1) = -(D/m)*(Vo(i))*(vxf(i))
-   ay(i+1) = -g - ((D/m)*(Vo(i))*(vyf(i)))
-   Vo(i+1) = sqrt((vxf(i+1)*vxf(i+1)) + (vyf(i+1)*vyf(i+1)))
+   ax(i+1) = -(D/m)*(vxf(i))*(vxf(i))
+   ay(i+1) = -g - ((D/m)*(vyf(i))*(vyf(i)))
+  
 
 
 write (2, 1001) fx(i), fy(i)
@@ -132,8 +133,8 @@ end do
 1001 format (2f10.6)
 close (2)
 
-Tf = maxval(ft, 1, (fy(i)<0))
-Xf = fx(i)
+Tf = ft(i) * 10.0
+Xf = fx(i+1)
 Yf = maxval(fy, 1, (fy(i)<0))
 end subroutine Tiro_friccion1
 
