@@ -1,7 +1,13 @@
+module Cte
+implicit none 
+real, parameter :: g = 9.81, p =1.1644, pi = 4.0*atan(1.0), CD = 0.47
+integer, parameter :: ntps=5000
+end module Cte
+
 program Tiro_parabolico
 use Cte
 implicit none 
-real :: dt, x0, y0, v0, v0x, v0y, m, dt_r, D, Xs, Ts, Ys, Xf, Tf, Yf, A, r, ttotal, xsf, ysf, tt
+real :: dt, x0, y0, v0, v0x, v0y, m, dt_r, D, Xs, Ts, Ys, Xf, Tf, Yf, A, r, ttotal, xsf, ysf, tt, velx, vely, acelx, acely
 real :: vxf(0:ntps), vyf(0:ntps), ax(0:ntps), ay(0:ntps), xx(0:ntps), yy(0:ntps), ft(0:ntps), Vo(0:ntps)
 
 
@@ -27,7 +33,9 @@ print * , '-------------------------------------'
 
 dt_r =(dt*pi)/180
 v0x = v0*cos(dt_r) !velocidad inicial en x
+print * , 'velocidad inicial x', v0x
 v0y = v0*sin(dt_r) !velocidad inicial en y
+print * , 'velocidad inicial y', v0y
 A = pi*r*r !area transversal 
 D = p*CD*A*0.5 !
 
@@ -48,18 +56,18 @@ print * , 'Altura máxima', ysf, 'metros'
 print * , '-------------------------------------'
 print * , '-------------------------------------'
 print * , '-------------------------------------'
-call Tiro_friccion1(v0, v0x, v0y, ax, ay, Xf, Tf, Yf, x0, y0, vxf, vyf, ft, D, m, Vo)
+call Tiro_friccion1(v0, v0x, v0y, ax, ay, Xf, Tf, Yf, x0, y0, vxf, vyf, ft, D, m, Vo, velx, vely, acelx, acely)
 print * , 'Modelo real'
 print * , 'Tiempo de vuelo',Tf ,'segundos'
 print * , 'Alcance',Xf ,'metros'
 print * , 'Altura máxima',Yf ,'metros'
+print * , 'velocidadx', velx
+print * , 'velocidady', vely
+print * , 'aceleracionx', acelx
+print * , 'aceleraciony', acely
 end Program Tiro_parabolico
 
-module Cte
-implicit none 
-real, parameter :: g = 9.81, p =1.1644, pi = 4.0*atan(1.0), CD = 0.47
-integer, parameter :: ntps=5000
-end module Cte
+
 
 subroutine Tiro_sfriccion(v0, dt_r, v0x, v0y, Xs, Ts, Ys, ttotal, xsf, ysf)
 use Cte
@@ -90,41 +98,49 @@ ysf = maxval(yy, 1, (yy(i)<0))
 
 end subroutine Tiro_sfriccion
 
-subroutine Tiro_friccion1(v0,v0x, v0y, ax, ay, Xf, Tf, Yf, x0, y0, vxf, vyf, ft, D, m, Vo) 
+subroutine Tiro_friccion1(v0,v0x, v0y, ax, ay, Xf, Tf, Yf, x0, y0, vxf, vyf, ft, D, m, Vo, velx, vely, acelx, acely) 
 use cte
 implicit none
-real, intent(in) :: v0, v0x, v0y, x0, y0, D, m
-real, intent(inout) :: Xf, Tf, Yf
+real, intent(in) :: v0x, v0y, x0, y0, D, m, v0
+real, intent(inout) :: Xf, Tf, Yf, velx, vely, acelx, acely
 real, dimension (0:ntps) :: fx, ft, fy, vxf, vyf, ax, ay, Vo
 integer :: i
-
+    
+   ft(0)=0
+   vxf(0)=v0x
+   vyf(0)=v0y
+   fx(0)=x0
+   fy(0)=y0
+   ax(0) = -(D/m)*(v0)*(v0x)
+   ay(0) = -g - ((D/m)*(v0)*(v0y))
+   Vo(0) = v0 
 
 open (2, file='tirofriccion.dat')
-
-   
-   vxf(0) = v0x
-   vyf(0) = v0y
-   Vo(0) = v0
  
 do i = 0, ntps, 1
 
-   ft(i+1) = ft(i) + 0.01   
+   ft(i+1) = (ft(i)*0.01) + 0.01 
    vxf(i+1) = vxf(i) + (ax(i)*ft(i+1))
-   vyf(i+1) = vxf(i) + (ay(i)*ft(i+1))
-   ax(i+1) = -(D/m)*(Vo(0))*(vxf(i))
-   ay(i+1) = -g - ((D/m)*(Vo(0))*(vyf(i)))
+   vyf(i+1) = vyf(i) + (ay(i)*ft(i+1))
    fx(i+1) = fx(i) + (vxf(i)*ft(i+1)) + ((1/2)*ax(i)*ft(i+1)*ft(i+1))
    fy(i+1) = fy(i) + (vyf(i)*ft(i+1)) + ((1/2)*ay(i)*ft(i+1)*ft(i+1))
-  
+   Vo(i+1) = sqrt((vxf(i)*vxf(i)) + (vyf(i)*vyf(i)))
+   ax(i+1) = -(D/m)*(Vo(i))*(vxf(i))
+   ay(i+1) = -g - ((D/m)*(Vo(i))*(vyf(i)))  
+   
+ 
 write (2, 1001) fx(i), fy(i)
 if (fy(i)<0) exit
 
 end do
 1001 format (2f10.6)
 close (2)
-
-Tf = ft(i+1)
-Xf = fx(i+1)
+velx= vxf(i)
+vely= vyf(i)
+acely= ay(i)
+acelx= ax(i)
+Tf = ft(i)
+Xf = fx(i)
 Yf = maxval(fy, 1, (fy(i)<0))
 end subroutine Tiro_friccion1
 
