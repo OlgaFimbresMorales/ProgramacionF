@@ -1,0 +1,20 @@
+Module periodos
+implicit none
+integer, parameter :: dias=48, mes=30
+end module periodos
+
+Program Mareas
+use periodos
+Implicit None
+real :: d, t, m, l, k
+integer :: i
+
+open (unit=1, file='sargento_mareas2.ods', status='unknown')
+
+
+open (1, file='mareas.dat')
+do i=0, mes, 1
+end do
+
+close (1)
+end Program Mareas
