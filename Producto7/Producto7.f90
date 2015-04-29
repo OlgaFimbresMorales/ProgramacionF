@@ -1,17 +1,17 @@
 Module periodos
 implicit none
-integer, parameter :: dia=48, mes=30
+integer, parameter :: dia=144, mes=30
 end module periodos
 
 Program Mareas
 use periodos
 Implicit None
-real, dimension(54) :: a, b
+real, dimension(144) :: a, b
 integer :: i
 
 
 
-open(2,file="mareas3.csv",status="old")
+open(2,file="mareas4.csv",status="old")
 do i=1, dia, 1
    read (2,*) a(i), b(i)  
    write (*,*) a(i), b(i)
