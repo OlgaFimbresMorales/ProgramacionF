@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 GFORTRAN module version '10' created from tiropp.f90
 MD5:460b1edf918b3a923cb8e532bc7de08d -- If you edit this, you'll get what you deserve.
+=======
+GFORTRAN module version '10' created from Tiro_p.f90
+MD5:e5393f104a66392b245289ea5494f124 -- If you edit this, you'll get what you deserve.
+>>>>>>> bede0b50d156e12cce896e98611b50e2064d0c92
 
 (() () () () () () () () () () () () () () () () () () () () () () () ()
 () () ())
@@ -22,18 +27,12 @@ IMPLICIT-SAVE 0 0) (REAL 4 0 0 0 REAL ()) 0 0 () (CONSTANT (REAL 4 0 0 0
 REAL ()) 0 '0.7851eb8@0') () 0 () () () 0 0)
 4 'cte' 'cte' '' 1 ((MODULE UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN UNKNOWN
 0 0) (UNKNOWN 0 0 0 0 UNKNOWN ()) 0 0 () () 0 () () () 0 0)
-5 'g' 'cte' '' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
-IMPLICIT-SAVE 0 0) (REAL 4 0 0 0 REAL ()) 0 0 () (CONSTANT (REAL 4 0 0 0
-REAL ()) 0 '0.9cf5c30@1') () 0 () () () 0 0)
-6 'ntps' 'cte' '' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
+5 'ntps' 'cte' '' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
 IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 0 INTEGER ()) 0 0 () (CONSTANT (
 INTEGER 4 0 0 0 INTEGER ()) 0 '5000') () 0 () () () 0 0)
-7 'p' 'cte' '' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
-IMPLICIT-SAVE 0 0) (REAL 4 0 0 0 REAL ()) 0 0 () (CONSTANT (REAL 4 0 0 0
-REAL ()) 0 '0.12a161e@1') () 0 () () () 0 0)
-8 'pi' 'cte' '' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
+6 'pi' 'cte' '' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
 IMPLICIT-SAVE 0 0) (REAL 4 0 0 0 REAL ()) 0 0 () (CONSTANT (REAL 4 0 0 0
 REAL ()) 0 '0.3243f6c@1') () 0 () () () 0 0)
 )
 
-('atan' 0 2 'cd' 0 3 'cte' 0 4 'g' 0 5 'ntps' 0 6 'p' 0 7 'pi' 0 8)
+('atan' 0 2 'cd' 0 3 'cte' 0 4 'ntps' 0 5 'pi' 0 6)
