@@ -1,0 +1,20 @@
+program Matriz
+implicit none
+real, dimension(1:5) :: a,c,e
+real :: d,b
+integer :: i
+
+open(12, file='matriz.csv', status='old')
+
+do i=1,4
+  read(12,*) a(i),b, c(i), d, e(i)
+  
+  write(*,*)  a(i),b, c(i),d,  e(i) 
+
+ 
+  write (*,*), maxval(c)
+end do 
+close(12)
+
+
+end program Matriz
