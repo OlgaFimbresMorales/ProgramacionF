@@ -150,7 +150,7 @@ end if
 end do
    print * , '-------------------------------'
    print * , 'Periodo promedio entre maximos diarios'
-  !write(*,*) sum(periodomaxd)/(dias-1), 'dias'
+  write(*,*) sum(periodomaxd)/(dias-1), 'dias'
 close(13)
 
 print * , '-------------------------------'
@@ -190,11 +190,11 @@ do i=1,318,1
   if (i .gt. 1) then
    periodomd(i) = tm(i)-tm(i-1)
   end if
-  write(*,*) periodomd(i)
+  !write(*,*) periodomd(i)
 end do
    print * , '-------------------------------'
    print * , 'Periodo promedio entre mareas semidiurnas'
-  write(*,*) sum(periodomd)/317, 'dias' 
+ ! write(*,*) sum(periodomd)/317, 'dias' 
 
 close(14)
 close(8)
